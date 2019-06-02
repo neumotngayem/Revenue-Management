@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -191,6 +192,8 @@
 
   <!-- Custom scripts for all pages-->
   <script src="../js/sb-admin-2.min.js"></script>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js "></script>
   <script>
 	// "myAwesomeDropzone" is the camelized version of the HTML element's ID
 	Dropzone.options.myAwesomeDropzone = {
@@ -199,14 +202,22 @@
 	  maxFiles: 1,
 	  acceptedFiles: ".xls,.xlsx",
 	  accept: function(file, done) {
-		console.log(file);
 		done();
 	  },
 	  init: function () {
 		this.on("complete", function (file) {
 			if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+				console.log(file.name);
 				console.log("completed upload");
-				window.location.href = "./uploadb.php";
+				//window.location.href = "./uploadb.php";
+/* 				$.ajax({
+					type: "POST",
+					url: 'uploadb.php',
+					data: {filename: file.name},
+					success: function(data){
+						alert("Success");
+					}
+				}); */
 			}
 		});
 	  }
