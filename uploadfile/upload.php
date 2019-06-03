@@ -18,10 +18,17 @@
 
   <!-- Custom styles for this template-->
   <link href="../css/sb-admin-2.min.css" rel="stylesheet">
-  <link href="../css/dropzone.css" rel="stylesheet">  
+  <link href="../css/dropzone.css" rel="stylesheet">
+  <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
   <script src="../js/dropzone.js"></script>
 </head>
-
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "root123456@";
+$dbname = "stovestore";
+$conn = new mysqli($servername, $username, $password, $dbname);
+?>
 <body id="page-top">
 
   <!-- Page Wrapper -->
@@ -136,7 +143,45 @@
           <!-- Page Heading -->
           <h1 class="h3 mb-4 text-gray-800">Upload your excel file</h1>
 		  <form action="./uploadfile.php" class="dropzone" id="myAwesomeDropzone">
-		  </form>		  
+		  </form>
+          <br>
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>File Name</th>
+                                <th>Upload Date</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            $sql = "SELECT * FROM fileupload";
+                            $result = $conn->query($sql);
+                            if ($result->num_rows > 0) {
+                                while($row = $result->fetch_assoc()) {
+                            ?>
+                            <tr>
+                                <td><?php echo($row["orginalname"]) ?></td>
+                                <td><?php echo($row["date_upload"]) ?></td>
+                            </tr>
+                            <?php
+                                }
+                            }
+                            ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <?php
+
+            ?>
         </div>
         <!-- /.container-fluid -->
 
@@ -221,9 +266,14 @@
 			}
 		});
 	  }
-	};  
-  </script>
+	};
 
+  </script>
+  <!-- Page level custom scripts -->
+  <!-- Page level plugins -->
+  <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+  <script src="../js/demo/datatables-demo.js"></script>
 </body>
 
 </html>
