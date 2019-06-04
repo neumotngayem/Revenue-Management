@@ -15,11 +15,12 @@
   <!-- Custom fonts for this template-->
   <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
   <!-- Custom styles for this template-->
   <link href="../css/sb-admin-2.min.css" rel="stylesheet">
   <link href="../css/dropzone.css" rel="stylesheet">
   <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
   <script src="../js/dropzone.js"></script>
 </head>
 <?php
@@ -148,7 +149,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
             <!-- DataTales Example -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">List uploaded files</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -157,6 +158,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
                             <tr>
                                 <th>File Name</th>
                                 <th>Upload Date</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -169,9 +171,11 @@ $conn = new mysqli($servername, $username, $password, $dbname);
                             <tr>
                                 <td><?php echo($row["orginalname"]) ?></td>
                                 <td><?php echo($row["date_upload"]) ?></td>
+                                <td class="td-sort"><i class="fas fa-trash btn-trash" onclick="deleteFile('<?php echo($row["id"]) ?>', '<?php echo($row["filename"]) ?>')"></i></td>
                             </tr>
                             <?php
                                 }
+
                             }
                             ?>
                             </tbody>
@@ -241,6 +245,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js "></script>
   <script>
 	// "myAwesomeDropzone" is the camelized version of the HTML element's ID
+    //Dropzone.autoDiscover = false;
 	Dropzone.options.myAwesomeDropzone = {
 	  paramName: "file", // The name that will be used to transfer the file
 	  maxFilesize: 5, // MB
@@ -254,20 +259,26 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 			if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
 				console.log(file.name);
 				console.log("completed upload");
-				//window.location.href = "./uploadb.php";
-/* 				$.ajax({
-					type: "POST",
-					url: 'uploadb.php',
-					data: {filename: file.name},
-					success: function(data){
-						alert("Success");
-					}
-				}); */
+				window.location.href = "./upload.php";
 			}
 		});
 	  }
 	};
-
+    function deleteFile(id, name){
+        console.log(id+" "+name);
+        $.ajax({
+            type: "POST",
+            url: 'deletefile.php',
+            data: {
+                fileid: id,
+                filename: name
+            },
+            success: function(data){
+                console.log(data);
+                location.reload();
+            }
+        });
+    }
   </script>
   <!-- Page level custom scripts -->
   <!-- Page level plugins -->

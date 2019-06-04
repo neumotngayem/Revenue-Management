@@ -1,0 +1,9 @@
+.btn-trash{
+    color: #4e73df;
+    left: 5%;
+    cursor: pointer;
+}
+
+.td-sort{
+    width: 0.1vh;
+}
