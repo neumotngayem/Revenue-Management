@@ -169,9 +169,9 @@ $conn = new mysqli($servername, $username, $password, $dbname);
                                 while($row = $result->fetch_assoc()) {
                             ?>
                             <tr>
-                                <td><?php echo($row["orginalname"]) ?></td>
-                                <td><?php echo($row["date_upload"]) ?></td>
-                                <td class="td-sort"><i class="fas fa-trash btn-trash" onclick="deleteFile('<?php echo($row["id"]) ?>', '<?php echo($row["filename"]) ?>')"></i></td>
+                                <td><?php echo($row["ORI_FILENAME"]) ?></td>
+                                <td><?php echo($row["DATE_UPLOAD"]) ?></td>
+                                <td class="td-sort"><i class="fas fa-trash btn-trash" onclick="deleteFile('<?php echo($row["FILE_ID"]) ?>', '<?php echo($row["FILE_NAME"]) ?>')"></i></td>
                             </tr>
                             <?php
                                 }

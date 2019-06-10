@@ -6,10 +6,10 @@ $servername = "localhost";
 $username = "root";
 $password = "root123456@";
 $dbname = "stovestore";
- 
+
 if (!empty($_FILES)) {
 	// Create connection
-	 $conn = new mysqli($servername, $username, $password, $dbname);
+	$conn = new mysqli($servername, $username, $password, $dbname);
     //If file is sent to the page, store the file object to a temporary variable. 
     $tempFile = $_FILES['file']['tmp_name'];      
     
@@ -18,7 +18,7 @@ if (!empty($_FILES)) {
 	
 	$ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
 	
-	$sql = "SELECT MAX(filename) AS max FROM fileupload";
+	$sql = "SELECT MAX(FILE_NAME) AS max FROM fileupload";
 	$result = $conn->query($sql);
 	$filename = "";
 	if ($result->num_rows > 0) {
@@ -39,7 +39,7 @@ if (!empty($_FILES)) {
 	move_uploaded_file($tempFile,$targetFile);
 	
 	$original = $_FILES['file']['name'];
-	$sql = "INSERT INTO fileupload (`filename`, `orginalname`, `date_upload`) VALUES  ('$targetName','$original',NOW())";
+	$sql = "INSERT INTO fileupload (FILE_ID, FILE_NAME, ORI_FILENAME, DATE_UPLOAD) VALUES  ('$filename','$targetName','$original',NOW())";
 	$conn->query($sql);
 	
 	$file = "./uploads/".$targetName;
@@ -63,8 +63,8 @@ if (!empty($_FILES)) {
 			$y++;
 		}
 
-		$sql .= "INSERT INTO receipt (STAFF_ID, LOCA_ID, STOVE_ID, SELL_DATE, QUANTITY)
-			VALUES ('$arrValues[0]', '$arrValues[1]', '$arrValues[2]', '$arrValues[3]', $arrValues[4]);";		
+		$sql .= "INSERT INTO receipt (STAFF_ID, LOCA_ID, STOVE_ID, SELL_DATE, QUANTITY, FILE_ID)
+			VALUES ('$arrValues[0]', '$arrValues[1]', '$arrValues[2]', '$arrValues[3]', $arrValues[4], '$filename');";
 		$x++;
 	 }
 	  $sql = substr($sql,0,strlen($sql)-1);

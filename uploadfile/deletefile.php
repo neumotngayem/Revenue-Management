@@ -13,10 +13,16 @@ if(isset($_POST['fileid']) && isset($_POST['filename'])){
     $dbname = "stovestore";
     // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
-    $sql = "DELETE FROM fileupload WHERE id='$fileid'";
+
+    $sql = "DELETE FROM fileupload WHERE FILE_ID='$fileid'";
     $conn->query($sql);
+
+    $sql = "DELETE FROM receipt WHERE FILE_ID='$fileid'";
+    $conn->query($sql);
+
     $path = "./uploads/".$filename;
     unlink($path);
+
     $conn->close();
 }
 ?>
